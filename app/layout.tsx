@@ -15,16 +15,19 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Landing Audit — анализ лендингов для платного трафика",
-    template: "%s | Landing Audit",
+    default: "ConversionPulse — диагностика конверсии вашего сайта",
+    template: "%s | ConversionPulse",
   },
   description:
-    "Автоматический аудит посадочных страниц с AI-анализом по 10 критериям. Узнайте, готов ли ваш лендинг к платному трафику, прежде чем слить бюджет.",
-  keywords: ["аудит лендинга", "анализ сайта", "CRO", "конверсия", "платный трафик"],
+    "ConversionPulse показывает конкретные проблемы вашей посадочной страницы и даёт готовые правки с рекомендациями — от критичных до косметических.",
+  keywords: ["аудит лендинга", "анализ сайта", "конверсия", "CRO", "платный трафик", "диагностика сайта"],
   openGraph: {
     type: "website",
     locale: "ru_RU",
-    siteName: "Landing Audit",
+    siteName: "ConversionPulse",
+    title: "ConversionPulse — диагностика конверсии вашего сайта",
+    description: "Покажем конкретные проблемы вашего сайта и дадим готовые рекомендации по правкам.",
+    url: "https://www.conversionpulse.ru",
   },
 };
 
