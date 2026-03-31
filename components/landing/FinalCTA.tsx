@@ -44,7 +44,7 @@ export function FinalCTA() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gray-900 py-16 sm:py-24">
+    <section className="relative overflow-hidden bg-[#0a0a0a] py-16 sm:py-24">
       {/* Фоновый декор */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-brand-600/10 blur-3xl" />
@@ -110,7 +110,7 @@ export function FinalCTA() {
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all disabled:opacity-60 disabled:cursor-not-allowed shrink-0"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] transition-all disabled:opacity-60 disabled:cursor-not-allowed shrink-0"
             >
               {loading ? (
                 <>

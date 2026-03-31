@@ -5,22 +5,22 @@ import { BarChart3, ShieldCheck, Zap, FileCheck } from "lucide-react";
 
 const STATS = [
   {
-    icon: <FileCheck className="h-5 w-5 text-brand-600" />,
+    icon: <FileCheck className="h-5 w-5 text-indigo-400" />,
     value: "1 200+",
     label: "сайтов проверено",
   },
   {
-    icon: <BarChart3 className="h-5 w-5 text-brand-600" />,
+    icon: <BarChart3 className="h-5 w-5 text-indigo-400" />,
     value: "10 000+",
     label: "проблем найдено",
   },
   {
-    icon: <Zap className="h-5 w-5 text-brand-600" />,
-    value: "~2 мин",
+    icon: <Zap className="h-5 w-5 text-indigo-400" />,
+    value: "~3 мин",
     label: "среднее время анализа",
   },
   {
-    icon: <ShieldCheck className="h-5 w-5 text-brand-600" />,
+    icon: <ShieldCheck className="h-5 w-5 text-indigo-400" />,
     value: "15+",
     label: "критериев проверки",
   },
@@ -38,9 +38,8 @@ const NICHES = [
 
 export function TrustBar() {
   return (
-    <section className="border-y border-gray-100 bg-gray-50/50 py-8">
+    <section className="border-y border-white/[0.06] bg-[#030303] py-8">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Статистика */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
           initial={{ opacity: 0, y: 16 }}
@@ -50,18 +49,17 @@ export function TrustBar() {
         >
           {STATS.map((stat) => (
             <div key={stat.label} className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 ring-1 ring-brand-100">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/[0.05] ring-1 ring-white/[0.08]">
                 {stat.icon}
               </div>
               <div>
-                <p className="text-lg font-bold text-gray-900">{stat.value}</p>
-                <p className="text-xs text-gray-500">{stat.label}</p>
+                <p className="text-lg font-bold text-white">{stat.value}</p>
+                <p className="text-xs text-white/40">{stat.label}</p>
               </div>
             </div>
           ))}
         </motion.div>
 
-        {/* Ниши */}
         <motion.div
           className="mt-6 flex flex-wrap items-center justify-center gap-2"
           initial={{ opacity: 0 }}
@@ -69,11 +67,11 @@ export function TrustBar() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <span className="text-xs text-gray-400 mr-1">Ниши клиентов:</span>
+          <span className="text-xs text-white/25 mr-1">Ниши клиентов:</span>
           {NICHES.map((niche) => (
             <span
               key={niche}
-              className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-600 border border-gray-200"
+              className="inline-flex items-center rounded-full bg-white/[0.03] px-3 py-1 text-xs font-medium text-white/40 border border-white/[0.06]"
             >
               {niche}
             </span>
