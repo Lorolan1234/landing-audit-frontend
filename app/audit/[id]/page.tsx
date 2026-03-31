@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+
 import { useAuditPolling } from "@/hooks/useAuditPolling";
 import { shortUrl, formatDate } from "@/lib/utils";
 import { ProcessingStatus } from "@/components/audit/ProcessingStatus";
@@ -24,6 +25,7 @@ import { AuditForm } from "@/components/audit/AuditForm";
 import { StrategicDiagnosis } from "@/components/audit/StrategicDiagnosis";
 import { BlockAnalysisCard } from "@/components/audit/BlockAnalysisCard";
 import { MissingElements } from "@/components/audit/MissingElements";
+
 import type { AIAnalysisResult, SpeedData } from "@/types/audit";
 import { CATEGORY_META, MARKETING_CATEGORIES, TECHNICAL_CATEGORIES } from "@/types/audit";
 
@@ -49,20 +51,18 @@ export default function AuditPage({ params }: PageProps) {
   const router = useRouter();
   const { status, fullResult, isPolling, error } = useAuditPolling(id);
 
-  // ── Загрузка / обработка ──────────────────────────────────────
+  // ── Загрузка / обработка ──
   if (!status || status.status === "pending" || status.status === "processing") {
     return (
-      <div className="min-h-screen bg-white">
-        <ProcessingStatus
-          status={status?.status ?? "pending"}
-          url={status?.url ?? ""}
-          currentStep={status?.current_step}
-        />
-      </div>
+      <ProcessingStatus
+        status={status?.status ?? "pending"}
+        url={status?.url ?? ""}
+        currentStep={status?.current_step}
+      />
     );
   }
 
-  // ── Ошибка ────────────────────────────────────────────────────
+  // ── Ошибка ──
   if (status.status === "failed" || error) {
     const rawError = status.error_message ?? error ?? "";
     const friendlyError = (() => {
@@ -81,12 +81,10 @@ export default function AuditPage({ params }: PageProps) {
     })();
 
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen bg-[#030303] flex flex-col items-center justify-center px-4 text-center">
         <div className="text-5xl mb-4">😕</div>
-        <h2 className="text-xl font-bold text-gray-900 mb-2">Не удалось выполнить аудит</h2>
-        <p className="text-sm text-gray-500 mb-6 max-w-sm">
-          {friendlyError}
-        </p>
+        <h2 className="text-xl font-bold text-white mb-2">Не удалось выполнить аудит</h2>
+        <p className="text-sm text-white/40 mb-6 max-w-sm">{friendlyError}</p>
         <div className="flex gap-3">
           <Link href="/">
             <Button variant="secondary">
@@ -103,9 +101,8 @@ export default function AuditPage({ params }: PageProps) {
     );
   }
 
-  // ── Результат ─────────────────────────────────────────────────
+  // ── Результат ──
   const ai = fullResult?.ai_result as AIAnalysisResult | null;
-
   const speedDataForDisplay: SpeedData = fullResult?.speed_data ?? {
     mobile: { performance_score: 0, fcp: 0, lcp: 0, cls: 0, tbt: 0, speed_index: 0, tti: 0 },
     desktop: { performance_score: 0, fcp: 0, lcp: 0, cls: 0, tbt: 0, speed_index: 0, tti: 0 },
@@ -115,16 +112,15 @@ export default function AuditPage({ params }: PageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/40">
+    <div className="min-h-screen bg-[#030303]">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
-
         {/* Хлебные крошки */}
-        <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-          <Link href="/" className="hover:text-gray-700 transition-colors">Главная</Link>
+        <div className="flex items-center gap-2 text-sm text-white/25 mb-6">
+          <Link href="/" className="hover:text-white/60 transition-colors">Главная</Link>
           <span>/</span>
-          <span className="text-gray-600">Аудит</span>
+          <span className="text-white/40">Аудит</span>
           <span>/</span>
-          <span className="text-gray-600 font-medium truncate max-w-xs">
+          <span className="text-white/50 font-medium truncate max-w-xs">
             {shortUrl(status.url, 40)}
           </span>
         </div>
@@ -132,21 +128,19 @@ export default function AuditPage({ params }: PageProps) {
         {/* Заголовок */}
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <h1 className="text-xl font-bold text-white flex items-center gap-2">
               {shortUrl(status.url, 50)}
-              <a href={status.url} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-brand-600">
+              <a href={status.url} target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-indigo-400">
                 <ExternalLink className="h-4 w-4" />
               </a>
             </h1>
-            <p className="text-sm text-gray-400 mt-1">{formatDate(status.created_at)}</p>
+            <p className="text-sm text-white/30 mt-1">{formatDate(status.created_at)}</p>
           </div>
 
-          {/* Кнопки действий */}
           {fullResult && (
             <div className="flex gap-2 shrink-0">
-              <Button
-                variant="secondary"
-                size="sm"
+              <button
+                className="inline-flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.05] px-4 py-2 text-sm font-medium text-white/70 hover:bg-white/[0.1] transition-all"
                 onClick={async () => {
                   try {
                     const res = await fetch("/api/v1/audit", {
@@ -168,10 +162,9 @@ export default function AuditPage({ params }: PageProps) {
               >
                 <RefreshCw className="h-4 w-4" />
                 Обновить
-              </Button>
-              <Button
-                variant="secondary"
-                size="sm"
+              </button>
+              <button
+                className="inline-flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.05] px-4 py-2 text-sm font-medium text-white/70 hover:bg-white/[0.1] transition-all"
                 onClick={async () => {
                   try {
                     const response = await fetch(`/api/v1/audit/${id}/pdf`);
@@ -196,18 +189,16 @@ export default function AuditPage({ params }: PageProps) {
               >
                 <Download className="h-4 w-4" />
                 PDF
-              </Button>
+              </button>
             </div>
           )}
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* ── Левая колонка: Индекс + Radar ── */}
+          {/* ── Левая колонка ── */}
           <div className="lg:col-span-1 space-y-6">
-
-            {/* Индекс готовности */}
             <motion.div
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+              className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
             >
@@ -220,39 +211,35 @@ export default function AuditPage({ params }: PageProps) {
               />
             </motion.div>
 
-            {/* Radar-чарт */}
             {ai && (
               <motion.div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5"
+                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <h2 className="text-sm font-bold text-gray-900 mb-4">Профиль страницы</h2>
+                <h2 className="text-sm font-bold text-white mb-4">Профиль страницы</h2>
                 <RadarChart aiResult={ai} />
               </motion.div>
             )}
 
-            {/* Новый аудит */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-              <h2 className="text-sm font-bold text-gray-900 mb-3">Проверить другой сайт</h2>
+            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
+              <h2 className="text-sm font-bold text-white mb-3">Проверить другой сайт</h2>
               <AuditForm />
             </div>
           </div>
 
-          {/* ── Правая колонка: детали ── */}
+          {/* ── Правая колонка ── */}
           <div className="lg:col-span-2 space-y-6">
-
-            {/* Бизнес-контекст */}
             {ai?.business_context && (ai.business_context.core_offer || ai.business_context.product_description) && (
               <motion.div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 }}
               >
-                <h2 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Briefcase className="h-4 w-4 text-brand-600" />
+                <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
+                  <Briefcase className="h-4 w-4 text-indigo-400" />
                   Бизнес-контекст страницы
                 </h2>
                 <dl className="grid sm:grid-cols-2 gap-3">
@@ -263,16 +250,15 @@ export default function AuditPage({ params }: PageProps) {
                     { label: "Бизнес-модель", value: ai.business_context.business_model },
                     { label: "Целевое действие", value: ai.business_context.target_action || ai.business_context.traffic_intent },
                   ].filter(({ value }) => value).map(({ label, value }) => (
-                    <div key={label} className="rounded-xl bg-gray-50 px-4 py-3">
-                      <dt className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">{label}</dt>
-                      <dd className="text-sm text-gray-800">{value}</dd>
+                    <div key={label} className="rounded-xl bg-white/[0.03] border border-white/[0.06] px-4 py-3">
+                      <dt className="text-xs font-semibold text-white/30 uppercase tracking-wide mb-1">{label}</dt>
+                      <dd className="text-sm text-white/70">{value}</dd>
                     </div>
                   ))}
                 </dl>
               </motion.div>
             )}
 
-            {/* Стратегический диагноз */}
             {ai?.strategic_diagnosis?.headline && (
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
@@ -283,23 +269,21 @@ export default function AuditPage({ params }: PageProps) {
               </motion.div>
             )}
 
-            {/* Итоговый анализ */}
             {ai?.overall_summary && (
               <motion.div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <h2 className="text-base font-bold text-gray-900 mb-5">Итоговый анализ</h2>
+                <h2 className="text-base font-bold text-white mb-5">Итоговый анализ</h2>
                 <SummaryBlock summary={ai.overall_summary} />
               </motion.div>
             )}
 
-            {/* Отсутствующие элементы — отдельный блок без дублей */}
             {ai?.missing_elements && (
               <motion.div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
@@ -308,15 +292,14 @@ export default function AuditPage({ params }: PageProps) {
               </motion.div>
             )}
 
-            {/* ══════ Дополнительный анализ ══════ */}
             {ai && (
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <h2 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Target className="h-4 w-4 text-brand-600" />
+                <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
+                  <Target className="h-4 w-4 text-indigo-400" />
                   Дополнительный анализ
                 </h2>
                 <div className="space-y-3">
@@ -338,16 +321,15 @@ export default function AuditPage({ params }: PageProps) {
               </motion.div>
             )}
 
-            {/* Поблочный разбор */}
             {((ai?.block_analysis ?? ai?.page_blocks_analysis)?.length ?? 0) > 0 && (
               <motion.div
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+                className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
               >
-                <h2 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Layers className="h-4 w-4 text-brand-600" />
+                <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
+                  <Layers className="h-4 w-4 text-indigo-400" />
                   Поблочный разбор страницы
                 </h2>
                 <div className="space-y-3">
@@ -358,7 +340,6 @@ export default function AuditPage({ params }: PageProps) {
               </motion.div>
             )}
 
-            {/* ══════ Технический аудит ══════ */}
             {ai && (
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
@@ -366,12 +347,12 @@ export default function AuditPage({ params }: PageProps) {
                 transition={{ delay: 0.3 }}
               >
                 <div className="flex items-center gap-3 mb-4 mt-2">
-                  <div className="h-px flex-1 bg-gray-200" />
-                  <h2 className="text-base font-bold text-gray-900 flex items-center gap-2 shrink-0">
-                    <Zap className="h-4 w-4 text-gray-400" />
+                  <div className="h-px flex-1 bg-white/[0.06]" />
+                  <h2 className="text-base font-bold text-white flex items-center gap-2 shrink-0">
+                    <Zap className="h-4 w-4 text-white/30" />
                     Технический аудит
                   </h2>
-                  <div className="h-px flex-1 bg-gray-200" />
+                  <div className="h-px flex-1 bg-white/[0.06]" />
                 </div>
                 <div className="space-y-3">
                   {TECHNICAL_CATEGORIES.map((key) => {
@@ -392,9 +373,8 @@ export default function AuditPage({ params }: PageProps) {
               </motion.div>
             )}
 
-            {/* Метрики скорости */}
             <motion.div
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6"
+              className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
