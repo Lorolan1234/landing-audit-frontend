@@ -11,7 +11,7 @@ import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#030303]">
       <Hero />
       <TrustBar />
       <ProblemSection />

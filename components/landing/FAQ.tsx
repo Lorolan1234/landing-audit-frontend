@@ -28,7 +28,7 @@ const QUESTIONS = [
   {
     question: "Как долго длится анализ?",
     answer:
-      "Полная диагностика занимает около 2–3 минут. За это время система анализирует контент, структуру блоков, скорость загрузки, мобильную версию и делает скриншоты на разных устройствах.",
+      "Полная диагностика занимает 3–5 минут. За это время система анализирует контент, структуру блоков, скорость загрузки и мобильную версию.",
   },
 ];
 
@@ -36,16 +36,16 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-100 last:border-0">
+    <div className="border-b border-white/[0.06] last:border-0">
       <button
         onClick={() => setOpen(!open)}
         className="flex w-full items-start justify-between gap-4 py-5 text-left"
       >
-        <span className="text-sm font-semibold text-gray-900 sm:text-base">
+        <span className="text-sm font-semibold text-white/80 sm:text-base">
           {question}
         </span>
         <ChevronDown
-          className={`h-5 w-5 shrink-0 text-gray-400 transition-transform duration-200 ${
+          className={`h-5 w-5 shrink-0 text-white/25 transition-transform duration-200 ${
             open ? "rotate-180" : ""
           }`}
         />
@@ -59,7 +59,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
             transition={{ duration: 0.2, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="pb-5 text-sm text-gray-600 leading-relaxed">
+            <p className="pb-5 text-sm text-white/40 leading-relaxed">
               {answer}
             </p>
           </motion.div>
@@ -71,9 +71,8 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 export function FAQ() {
   return (
-    <section className="py-16 sm:py-24 bg-white">
+    <section className="py-16 sm:py-24 bg-[#030303]">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        {/* Заголовок */}
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -81,14 +80,13 @@ export function FAQ() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Частые вопросы
           </h2>
         </motion.div>
 
-        {/* Аккордеон */}
         <motion.div
-          className="rounded-2xl border border-gray-200 bg-white px-6 shadow-sm"
+          className="rounded-2xl border border-white/[0.08] bg-white/[0.02] px-6"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
