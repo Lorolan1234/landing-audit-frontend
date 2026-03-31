@@ -38,7 +38,7 @@ const NICHES = [
 
 export function TrustBar() {
   return (
-    <section className="border-y border-white/[0.06] bg-[#030303] py-8">
+    <section className="border-b border-white/[0.06] bg-[#030303] py-8">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
