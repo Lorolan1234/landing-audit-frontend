@@ -23,20 +23,20 @@ const SECTION_CONFIG = {
   critical: {
     title: "Критично",
     dot: "🔴",
-    border: "border-red-100",
-    bg: "bg-red-50/50",
+    border: "border-red-500/20",
+    bg: "bg-red-500/5",
   },
   important: {
     title: "Важно",
     dot: "🟡",
-    border: "border-amber-100",
-    bg: "bg-amber-50/50",
+    border: "border-amber-500/20",
+    bg: "bg-amber-500/5",
   },
   nice_to_have: {
     title: "Желательно",
     dot: "🟢",
-    border: "border-green-100",
-    bg: "bg-green-50/50",
+    border: "border-green-500/20",
+    bg: "bg-green-500/5",
   },
 } as const;
 
@@ -50,7 +50,7 @@ function renderSection(
 
   return (
     <>
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-3 first:mt-0 mb-1.5">
+      <p className="text-xs font-semibold text-white/40 uppercase tracking-wide mt-3 first:mt-0 mb-1.5">
         {config.dot} {config.title}
       </p>
       {items.map((item, i) => (
@@ -62,9 +62,9 @@ function renderSection(
           className={`flex gap-3 text-sm rounded-lg border ${config.border} ${config.bg} px-4 py-3`}
         >
           <div className="min-w-0">
-            <p className="font-medium text-gray-800">{item.element}</p>
+            <p className="font-medium text-white/80">{item.element}</p>
             {item.why_needed && (
-              <p className="text-xs text-gray-500 mt-0.5">{item.why_needed}</p>
+              <p className="text-xs text-white/40 mt-0.5">{item.why_needed}</p>
             )}
           </div>
         </motion.li>
@@ -77,14 +77,14 @@ export function MissingElements({ data }: MissingElementsProps) {
   const critical = data.critical ?? [];
   const important = data.important ?? [];
   const niceToHave = data.nice_to_have ?? [];
-
   const totalCount = critical.length + important.length + niceToHave.length;
+
   if (totalCount === 0) return null;
 
   return (
     <div>
-      <h3 className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-3">
-        <AlertCircle className="h-4 w-4 text-orange-500" />
+      <h3 className="flex items-center gap-2 text-sm font-bold text-white/80 mb-3">
+        <AlertCircle className="h-4 w-4 text-orange-400" />
         Отсутствующие элементы на странице
       </h3>
       <ul className="space-y-2">
