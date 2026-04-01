@@ -10,13 +10,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", loading, children, disabled, ...props }, ref) => {
     const base =
-      "inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
+      "inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303] disabled:opacity-50 disabled:pointer-events-none";
 
     const variants = {
-      primary: "bg-brand-600 text-white hover:bg-brand-700 active:scale-[0.98] shadow-sm",
-      secondary: "bg-white text-brand-700 border border-brand-200 hover:bg-brand-50 active:scale-[0.98]",
-      ghost: "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
-      danger: "bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]",
+      primary:
+        "bg-gradient-to-r from-indigo-500 to-rose-500 text-white hover:opacity-90 active:scale-[0.98] shadow-lg shadow-indigo-500/25",
+      secondary:
+        "bg-white/[0.05] text-white/70 border border-white/[0.1] hover:bg-white/[0.1] active:scale-[0.98]",
+      ghost: "text-white/50 hover:bg-white/[0.05] hover:text-white/80",
+      danger: "bg-red-500/20 text-red-400 border border-red-500/20 hover:bg-red-500/30 active:scale-[0.98]",
     };
 
     const sizes = {
@@ -43,6 +45,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
-Button.displayName = "Button";
 
+Button.displayName = "Button";
 export { Button };
