@@ -31,40 +31,36 @@ export function RadarChart({ aiResult }: RadarChartProps) {
   const data = Object.entries(LABELS).map(([key, name]) => ({
     subject: name,
     score:
-      (aiResult[key as ScoredCategory] as { score: number } | undefined)
-        ?.score ?? 0,
+      (aiResult[key as ScoredCategory] as { score: number } | undefined)?.score ?? 0,
     fullMark: 10,
   }));
 
   return (
     <div className="w-full h-72">
       <ResponsiveContainer width="100%" height="100%">
-        <RechartsRadar
-          data={data}
-          cx="50%"
-          cy="50%"
-          outerRadius="65%"
-        >
-          <PolarGrid stroke="#e5e7eb" />
+        <RechartsRadar data={data} cx="50%" cy="50%" outerRadius="65%">
+          <PolarGrid stroke="rgba(255,255,255,0.08)" />
           <PolarAngleAxis
             dataKey="subject"
-            tick={{ fontSize: 10, fill: "#6b7280" }}
+            tick={{ fontSize: 10, fill: "rgba(255,255,255,0.4)" }}
             tickLine={false}
           />
           <Radar
             name="Оценка"
             dataKey="score"
-            stroke="#3b82f6"
-            fill="#3b82f6"
-            fillOpacity={0.18}
+            stroke="#818cf8"
+            fill="#818cf8"
+            fillOpacity={0.15}
             strokeWidth={2}
-            dot={{ r: 3, fill: "#3b82f6" }}
+            dot={{ r: 3, fill: "#818cf8" }}
           />
           <Tooltip
             formatter={(value: number) => [`${value}/10`, "Оценка"]}
             contentStyle={{
               borderRadius: "12px",
-              border: "1px solid #e5e7eb",
+              border: "1px solid rgba(255,255,255,0.1)",
+              backgroundColor: "#1a1a1a",
+              color: "#fff",
               fontSize: "12px",
             }}
           />
