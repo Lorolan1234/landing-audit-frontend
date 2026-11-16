@@ -1,7 +1,8 @@
 export type AuditStatus = "pending" | "processing" | "completed" | "failed";
 
 export interface CategoryResult {
-  score: number;
+  /** null — по категории нет данных (оценка v2 не ставит ноль за сбой источника) */
+  score: number | null;
   verdict: string;
   findings: string[];
   recommendations: string[];
@@ -202,13 +203,13 @@ export const CATEGORY_META: Record<
   first_screen:         { title: "Первый экран",        weight: 15, icon: "Monitor" },
   offer_clarity:        { title: "Ясность оффера",      weight: 15, icon: "Target" },
   cta_analysis:         { title: "Анализ CTA",          weight: 15, icon: "MousePointerClick" },
-  trust_elements:       { title: "Элементы доверия",    weight: 10, icon: "ShieldCheck" },
+  trust_elements:       { title: "Элементы доверия",    weight: 12, icon: "ShieldCheck" },
   content_quality:      { title: "Качество контента",   weight: 8,  icon: "FileText" },
   mobile_friendliness:  { title: "Мобильная версия",    weight: 10, icon: "Smartphone" },
-  page_speed_assessment:{ title: "Скорость загрузки",   weight: 10, icon: "Zap" },
-  conversion_funnel:    { title: "Воронка конверсии",   weight: 7,  icon: "TrendingUp" },
+  page_speed_assessment:{ title: "Скорость загрузки",   weight: 12, icon: "Zap" },
+  conversion_funnel:    { title: "Воронка конверсии",   weight: 5,  icon: "TrendingUp" },
   traffic_leaks:        { title: "Утечки трафика",      weight: 5,  icon: "AlertTriangle" },
-  analytics_tracking:   { title: "Аналитика и трекинг", weight: 5,  icon: "BarChart2" },
+  analytics_tracking:   { title: "Аналитика и трекинг", weight: 3,  icon: "BarChart2" },
 };
 
 // Категории для дополнительного анализа (не дублируют поблочный разбор)

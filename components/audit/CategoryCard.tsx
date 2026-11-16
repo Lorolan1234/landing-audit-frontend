@@ -74,22 +74,31 @@ export function CategoryCard({ title, icon, data, weight, defaultOpen = false }:
           <p className="text-xs text-white/30 mt-0.5">{data.verdict} · вес {weight}%</p>
         </div>
         <div className="flex items-center gap-3 shrink-0">
-          <div className="text-right">
-            <span className={cn("text-2xl font-black", getScoreColor(data.score))}>
-              {data.score}
-            </span>
-            <span className="text-xs text-white/20">/10</span>
-          </div>
-          <div className="w-1.5 h-10 bg-white/[0.06] rounded-full overflow-hidden">
-            <div
-              className="w-full rounded-full transition-all duration-700"
-              style={{
-                height: `${data.score * 10}%`,
-                backgroundColor: getScoreHex(data.score),
-                marginTop: `${100 - data.score * 10}%`,
-              }}
-            />
-          </div>
+          {data.score === null || data.score === undefined ? (
+            <div className="text-right">
+              <span className="text-2xl font-black text-white/25">—</span>
+              <p className="text-[10px] text-white/25 leading-none">нет данных</p>
+            </div>
+          ) : (
+            <>
+              <div className="text-right">
+                <span className={cn("text-2xl font-black", getScoreColor(data.score))}>
+                  {data.score}
+                </span>
+                <span className="text-xs text-white/20">/10</span>
+              </div>
+              <div className="w-1.5 h-10 bg-white/[0.06] rounded-full overflow-hidden">
+                <div
+                  className="w-full rounded-full transition-all duration-700"
+                  style={{
+                    height: `${data.score * 10}%`,
+                    backgroundColor: getScoreHex(data.score),
+                    marginTop: `${100 - data.score * 10}%`,
+                  }}
+                />
+              </div>
+            </>
+          )}
           {open ? (
             <ChevronUp className="h-4 w-4 text-white/30" />
           ) : (
