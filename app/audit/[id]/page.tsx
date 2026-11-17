@@ -196,7 +196,7 @@ export default function AuditPage({ params }: PageProps) {
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* ── Левая колонка ── */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 min-w-0 space-y-6">
             <motion.div
               className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
               initial={{ opacity: 0, y: 16 }}
@@ -225,12 +225,12 @@ export default function AuditPage({ params }: PageProps) {
 
             <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
               <h2 className="text-sm font-bold text-white mb-3">Проверить другой сайт</h2>
-              <AuditForm />
+              <AuditForm className="sm:flex-col" />
             </div>
           </div>
 
           {/* ── Правая колонка ── */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 min-w-0 space-y-6">
             {ai?.business_context && (ai.business_context.core_offer || ai.business_context.product_description) && (
               <motion.div
                 className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6"
@@ -313,7 +313,6 @@ export default function AuditPage({ params }: PageProps) {
                         title={meta.title}
                         icon={ICON_MAP[meta.icon]}
                         data={data as never}
-                        weight={meta.weight}
                       />
                     );
                   })}
@@ -365,7 +364,6 @@ export default function AuditPage({ params }: PageProps) {
                         title={meta.title}
                         icon={ICON_MAP[meta.icon]}
                         data={data as never}
-                        weight={meta.weight}
                       />
                     );
                   })}

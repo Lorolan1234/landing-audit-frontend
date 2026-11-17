@@ -17,7 +17,7 @@ const STEPS = [
   {
     number: "02",
     icon: <Clock className="h-6 w-6" />,
-    title: "Подождите 3–5 минут",
+    title: "Подождите 2–3 минуты",
     description:
       "Система проведёт комплексную диагностику: проанализирует контент, структуру, скорость, мобильную версию.",
     color: "text-amber-400",
@@ -38,7 +38,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-16 sm:py-24 bg-[#030303]">
+    <section id="how-it-works" className="py-16 sm:py-24 bg-[#07070a]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center max-w-2xl mx-auto mb-16"
@@ -49,7 +49,7 @@ export function HowItWorks() {
         >
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             3 шага до готового{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-rose-300">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-violet-300">
               списка правок
             </span>
           </h2>
@@ -75,7 +75,7 @@ export function HowItWorks() {
                 >
                   {step.icon}
                   <span
-                    className={`absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#0a0a0a] text-xs font-bold ${step.color} ring-2 ${step.ring}`}
+                    className={`absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#0c0c11] text-xs font-bold ${step.color} ring-2 ${step.ring}`}
                   >
                     {step.number}
                   </span>
@@ -85,7 +85,7 @@ export function HowItWorks() {
               <h3 className="mt-6 text-lg font-bold text-white">
                 {step.title}
               </h3>
-              <p className="mt-3 text-sm text-white/40 leading-relaxed max-w-xs mx-auto">
+              <p className="mt-3 text-sm text-white/65 leading-relaxed max-w-xs mx-auto">
                 {step.description}
               </p>
             </motion.div>

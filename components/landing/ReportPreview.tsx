@@ -1,14 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
   AlertTriangle,
   Layers,
-  Search,
-  Loader2,
   ChevronDown,
   CheckCircle2,
   XCircle,
@@ -17,7 +12,7 @@ import {
   TrendingUp,
   AlertCircle,
 } from "lucide-react";
-import { createAudit } from "@/lib/api";
+import { UrlForm } from "./UrlForm";
 
 const MOCK_BLOCKS = [
   { name: "Первый экран", score: 4, problems: 3, color: "text-red-400" },
@@ -66,28 +61,8 @@ const MOCK_MISSING = [
 ];
 
 export function ReportPreview() {
-  const [url, setUrl] = useState("");
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    let normalizedUrl = url.trim();
-    if (!normalizedUrl) return;
-    if (!normalizedUrl.startsWith("http")) {
-      normalizedUrl = "https://" + normalizedUrl;
-    }
-    setLoading(true);
-    try {
-      const result = await createAudit(normalizedUrl);
-      router.push(`/audit/${result.id}`);
-    } catch {
-      setLoading(false);
-    }
-  };
-
   return (
-    <section className="py-16 sm:py-24 bg-[#0a0a0a]">
+    <section className="py-16 sm:py-24 bg-[#0c0c11]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center max-w-2xl mx-auto mb-12"
@@ -98,11 +73,11 @@ export function ReportPreview() {
         >
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Не просто оценка —{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-rose-300">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-violet-300">
               готовый план действий
             </span>
           </h2>
-          <p className="mt-4 text-lg text-white/40">
+          <p className="mt-4 text-lg text-white/65">
             Стратегическая диагностика, поблочный разбор с готовыми текстами,
             метрики скорости и приоритизированные рекомендации.
           </p>
@@ -124,8 +99,8 @@ export function ReportPreview() {
                 <div className="h-3 w-3 rounded-full bg-green-500/60" />
               </div>
               <div className="flex-1 mx-4">
-                <div className="bg-white/[0.05] rounded-md border border-white/[0.08] px-3 py-1 text-xs text-white/30 max-w-xs">
-                  conversionpulse.ru/audit/результат
+                <div className="bg-white/[0.05] rounded-md border border-white/[0.08] px-3 py-1 text-xs text-white/55 max-w-xs">
+                  conversionpulse.ru/audit · пример
                 </div>
               </div>
             </div>
@@ -142,12 +117,12 @@ export function ReportPreview() {
                     </svg>
                     <span className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">48</span>
                   </div>
-                  <span className="text-xs text-white/30 mt-1">из 100</span>
+                  <span className="text-xs text-white/55 mt-1">из 100</span>
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-white">ваш-сайт.ru/landing</p>
                   <p className="text-xs text-amber-400 font-medium mt-1">Условно готов, нужны доработки</p>
-                  <p className="text-xs text-white/30 mt-2">12 проблем · 5 блоков проверено · 195с</p>
+                  <p className="text-xs text-white/55 mt-2">12 проблем · 5 блоков проверено · 195с</p>
                 </div>
               </div>
 
@@ -175,7 +150,7 @@ export function ReportPreview() {
                     <CheckCircle2 className="h-3.5 w-3.5" /> Сильные стороны
                   </p>
                   {MOCK_STRENGTHS.map((s, i) => (
-                    <p key={i} className="text-xs text-white/50 mt-1 flex gap-1.5">
+                    <p key={i} className="text-xs text-white/70 mt-1 flex gap-1.5">
                       <span className="text-green-400 shrink-0">✓</span>
                       <span className="line-clamp-2">{s}</span>
                     </p>
@@ -186,7 +161,7 @@ export function ReportPreview() {
                     <XCircle className="h-3.5 w-3.5" /> Слабые стороны
                   </p>
                   {MOCK_WEAKNESSES.slice(0, 2).map((w, i) => (
-                    <p key={i} className="text-xs text-white/50 mt-1 flex gap-1.5">
+                    <p key={i} className="text-xs text-white/70 mt-1 flex gap-1.5">
                       <span className="text-red-400 shrink-0">✕</span>
                       <span className="line-clamp-2">{w}</span>
                     </p>
@@ -196,7 +171,7 @@ export function ReportPreview() {
 
               {/* Топ-3 приоритета */}
               <div>
-                <p className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                <p className="text-xs font-semibold text-white/65 uppercase tracking-wide mb-2 flex items-center gap-1.5">
                   <TrendingUp className="h-3.5 w-3.5" /> Топ-3 приоритета
                 </p>
                 <div className="space-y-2">
@@ -209,7 +184,7 @@ export function ReportPreview() {
                         <div className="min-w-0">
                           <p className="text-xs font-medium text-white/80 line-clamp-2">{p.action}</p>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs text-white/40">{p.effect}</span>
+                            <span className="text-xs text-white/65">{p.effect}</span>
                             <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${p.complexityColor}`}>
                               {p.complexity}
                             </span>
@@ -223,7 +198,7 @@ export function ReportPreview() {
 
               {/* Отсутствующие элементы */}
               <div>
-                <p className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                <p className="text-xs font-semibold text-white/65 uppercase tracking-wide mb-2 flex items-center gap-1.5">
                   <AlertCircle className="h-3.5 w-3.5" /> Отсутствующие элементы
                 </p>
                 <div className="space-y-1.5">
@@ -239,14 +214,14 @@ export function ReportPreview() {
 
               {/* Поблочный разбор */}
               <div>
-                <p className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                <p className="text-xs font-semibold text-white/65 uppercase tracking-wide mb-2 flex items-center gap-1.5">
                   <Layers className="h-3.5 w-3.5" /> Поблочный разбор
                 </p>
                 <div className="space-y-1.5">
                   {MOCK_BLOCKS.map((block, idx) => (
                     <div key={block.name} className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-white/25 w-4">{idx + 1}</span>
+                        <span className="text-xs text-white/50 w-4">{idx + 1}</span>
                         <span className="text-sm font-medium text-white/80">{block.name}</span>
                         <span className="text-xs bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded">
                           {block.problems} пробл.
@@ -254,7 +229,7 @@ export function ReportPreview() {
                       </div>
                       <div className="flex items-center gap-2">
                         <span className={`text-base font-bold ${block.color}`}>
-                          {block.score}<span className="text-xs text-white/25">/10</span>
+                          {block.score}<span className="text-xs text-white/50">/10</span>
                         </span>
                         <ChevronDown className="h-3.5 w-3.5 text-white/20" />
                       </div>
@@ -267,23 +242,23 @@ export function ReportPreview() {
               <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 overflow-hidden">
                 <div className="flex items-center justify-between px-4 py-3 border-b border-indigo-500/10">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-white/25">1</span>
+                    <span className="text-xs text-white/50">1</span>
                     <span className="text-sm font-semibold text-white">Первый экран</span>
                     <span className="text-xs bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded">3 пробл.</span>
                   </div>
-                  <span className="text-base font-bold text-red-400">4<span className="text-xs text-white/25">/10</span></span>
+                  <span className="text-base font-bold text-red-400">4<span className="text-xs text-white/50">/10</span></span>
                 </div>
                 <div className="px-4 py-4 space-y-3">
-                  <div className="bg-white/[0.03] rounded-lg p-3 text-xs text-white/50 space-y-1">
-                    <p><span className="text-white/25">Заголовок:</span> «Название вашего продукта»</p>
-                    <p><span className="text-white/25">Подзаголовок:</span> «Описание функций и возможностей»</p>
-                    <p><span className="text-white/25">CTA:</span> [Оставить заявку]</p>
+                  <div className="bg-white/[0.03] rounded-lg p-3 text-xs text-white/70 space-y-1">
+                    <p><span className="text-white/50">Заголовок:</span> «Название вашего продукта»</p>
+                    <p><span className="text-white/50">Подзаголовок:</span> «Описание функций и возможностей»</p>
+                    <p><span className="text-white/50">CTA:</span> [Оставить заявку]</p>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-red-400 shrink-0 mt-0.5">✕</span>
                     <div>
                       <p className="text-sm font-semibold text-white/80">Заголовок описывает продукт, а не результат для клиента</p>
-                      <p className="text-xs text-white/40 mt-0.5">
+                      <p className="text-xs text-white/65 mt-0.5">
                         Посетитель из рекламы ищет решение своей проблемы, а не название продукта.
                       </p>
                     </div>
@@ -307,20 +282,20 @@ export function ReportPreview() {
 
               {/* Скорость загрузки */}
               <div>
-                <p className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                <p className="text-xs font-semibold text-white/65 uppercase tracking-wide mb-2 flex items-center gap-1.5">
                   <Zap className="h-3.5 w-3.5" /> Скорость загрузки
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <Smartphone className="h-3.5 w-3.5 text-white/30" />
+                      <Smartphone className="h-3.5 w-3.5 text-white/55" />
                       <span className="text-xs font-medium text-white/60">Mobile</span>
                       <span className="text-sm font-bold text-amber-400 ml-auto">Score 62</span>
                     </div>
                     <div className="space-y-1 text-xs">
-                      <div className="flex justify-between"><span className="text-white/30">LCP</span><span className="text-red-400 font-medium">4.2 с</span></div>
-                      <div className="flex justify-between"><span className="text-white/30">CLS</span><span className="text-green-400 font-medium">0.05</span></div>
-                      <div className="flex justify-between"><span className="text-white/30">TBT</span><span className="text-amber-400 font-medium">320 мс</span></div>
+                      <div className="flex justify-between"><span className="text-white/55">LCP</span><span className="text-red-400 font-medium">4.2 с</span></div>
+                      <div className="flex justify-between"><span className="text-white/55">CLS</span><span className="text-green-400 font-medium">0.05</span></div>
+                      <div className="flex justify-between"><span className="text-white/55">TBT</span><span className="text-amber-400 font-medium">320 мс</span></div>
                     </div>
                   </div>
                   <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
@@ -330,9 +305,9 @@ export function ReportPreview() {
                       <span className="text-sm font-bold text-green-400 ml-auto">Score 89</span>
                     </div>
                     <div className="space-y-1 text-xs">
-                      <div className="flex justify-between"><span className="text-white/30">LCP</span><span className="text-green-400 font-medium">1.2 с</span></div>
-                      <div className="flex justify-between"><span className="text-white/30">CLS</span><span className="text-green-400 font-medium">0.01</span></div>
-                      <div className="flex justify-between"><span className="text-white/30">TBT</span><span className="text-green-400 font-medium">150 мс</span></div>
+                      <div className="flex justify-between"><span className="text-white/55">LCP</span><span className="text-green-400 font-medium">1.2 с</span></div>
+                      <div className="flex justify-between"><span className="text-white/55">CLS</span><span className="text-green-400 font-medium">0.01</span></div>
+                      <div className="flex justify-between"><span className="text-white/55">TBT</span><span className="text-green-400 font-medium">150 мс</span></div>
                     </div>
                   </div>
                 </div>
@@ -340,7 +315,7 @@ export function ReportPreview() {
 
               {/* Градиентное затемнение */}
               <div className="relative -mx-6 -mb-6 h-12">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c11] via-[#0c0c11]/80 to-transparent" />
               </div>
             </div>
           </div>
@@ -354,35 +329,7 @@ export function ReportPreview() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <form onSubmit={handleSubmit} className="inline-flex flex-col sm:flex-row gap-3 mx-auto max-w-md">
-            <div className="relative flex-1">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <Search className="h-4 w-4 text-white/30" />
-              </div>
-              <input
-                type="text"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://ваш-сайт.ru"
-                disabled={loading}
-                className="w-full rounded-xl border border-white/[0.1] bg-white/[0.05] py-3 pl-9 pr-4 text-sm text-white placeholder-white/30 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent disabled:opacity-60"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-rose-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all disabled:opacity-60 shrink-0"
-            >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <>
-                  Проверить свой сайт
-                  <ArrowRight className="h-4 w-4" />
-                </>
-              )}
-            </button>
-          </form>
+          <UrlForm id="preview-form" buttonLabel="Проверить свой сайт" className="mx-auto max-w-xl" />
         </motion.div>
       </div>
     </section>

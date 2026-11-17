@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Gauge, AlertTriangle, ClipboardList, Smartphone } from "lucide-react";
+import { ANALYSIS_TIME } from "@/lib/site";
 
 const FEATURES = [
   {
@@ -13,7 +14,6 @@ const FEATURES = [
     color: "text-indigo-400",
     bg: "bg-indigo-500/10",
     borderColor: "hover:border-indigo-500/30",
-    tags: ["#Скоринг", "#Готовность"],
   },
   {
     icon: <AlertTriangle className="h-5 w-5" />,
@@ -24,7 +24,6 @@ const FEATURES = [
     color: "text-red-400",
     bg: "bg-red-500/10",
     borderColor: "hover:border-red-500/30",
-    tags: ["#Проблемы", "#Критичное"],
   },
   {
     icon: <ClipboardList className="h-5 w-5" />,
@@ -35,7 +34,6 @@ const FEATURES = [
     color: "text-emerald-400",
     bg: "bg-emerald-500/10",
     borderColor: "hover:border-emerald-500/30",
-    tags: ["#Рекомендации", "#Тексты"],
   },
   {
     icon: <Smartphone className="h-5 w-5" />,
@@ -46,13 +44,12 @@ const FEATURES = [
     color: "text-violet-400",
     bg: "bg-violet-500/10",
     borderColor: "hover:border-violet-500/30",
-    tags: ["#Mobile", "#Скорость"],
   },
 ];
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-16 sm:py-24 bg-[#0a0a0a]">
+    <section id="features" className="py-16 sm:py-24 bg-[#0c0c11]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center max-w-2xl mx-auto mb-14"
@@ -63,11 +60,11 @@ export function FeaturesSection() {
         >
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Что вы получите за{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-rose-300">
-              3 минуты
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-violet-300">
+              {ANALYSIS_TIME}
             </span>
           </h2>
-          <p className="mt-4 text-lg text-white/40">
+          <p className="mt-4 text-lg text-white/65">
             Полная диагностика конверсионного потенциала вашей посадочной
             страницы
           </p>
@@ -92,31 +89,20 @@ export function FeaturesSection() {
               </div>
 
               {/* Заголовок + подзаголовок */}
-              <div className="mt-4 flex items-baseline gap-2">
+              <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
                 <h3 className="text-base font-bold text-white">
                   {feature.title}
                 </h3>
-                <span className="text-xs text-white/25 font-medium">
+                <span className="text-xs text-white/50 font-medium">
                   {feature.subtitle}
                 </span>
               </div>
 
               {/* Описание */}
-              <p className="mt-2.5 text-sm text-white/45 leading-relaxed">
+              <p className="mt-2.5 text-sm text-white/65 leading-relaxed">
                 {feature.description}
               </p>
 
-              {/* Теги */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {feature.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center rounded-full bg-white/[0.04] px-2.5 py-0.5 text-[11px] font-medium text-white/35 border border-white/[0.06]"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </motion.div>
           ))}
         </div>

@@ -35,7 +35,7 @@ const PROBLEMS = [
 
 export function ProblemSection() {
   return (
-    <section className="py-16 sm:py-24 bg-[#030303]">
+    <section className="py-16 sm:py-24 bg-[#07070a]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center max-w-2xl mx-auto mb-12"
@@ -50,9 +50,9 @@ export function ProblemSection() {
               Ваш сайт их теряет.
             </span>
           </h2>
-          <p className="mt-4 text-lg text-white/40">
-            Большинство сайтов теряют до 70% конверсий из-за проблем, которые вы
-            не замечаете
+          <p className="mt-4 text-lg text-white/65">
+            Заявки чаще всего теряются в мелочах, которые не видно изнутри:
+            размытый оффер, незаметная кнопка, нет причин доверять
           </p>
         </motion.div>
 
@@ -79,7 +79,7 @@ export function ProblemSection() {
               <h3 className="mt-4 text-lg font-bold text-white">
                 {problem.title}
               </h3>
-              <p className="mt-2 text-sm text-white/50 leading-relaxed">
+              <p className="mt-2 text-sm text-white/70 leading-relaxed">
                 {problem.description}
               </p>
             </motion.div>

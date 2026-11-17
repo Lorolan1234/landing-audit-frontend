@@ -5,15 +5,6 @@ import { User, Briefcase, Building2, Code2 } from "lucide-react";
 
 const PERSONAS = [
   {
-    icon: <User className="h-6 w-6" />,
-    title: "Маркетолог",
-    description:
-      "Проверяешь лендинг перед запуском рекламы. Экономишь бюджет клиента и своё время на ручной аудит.",
-    color: "text-indigo-400",
-    bg: "bg-indigo-500/10",
-    ring: "ring-indigo-500/20",
-  },
-  {
     icon: <Briefcase className="h-6 w-6" />,
     title: "Предприниматель",
     description:
@@ -21,6 +12,15 @@ const PERSONAS = [
     color: "text-amber-400",
     bg: "bg-amber-500/10",
     ring: "ring-amber-500/20",
+  },
+  {
+    icon: <User className="h-6 w-6" />,
+    title: "Маркетолог",
+    description:
+      "Проверяешь лендинг перед запуском рекламы. Экономишь бюджет клиента и своё время на ручной аудит.",
+    color: "text-indigo-400",
+    bg: "bg-indigo-500/10",
+    ring: "ring-indigo-500/20",
   },
   {
     icon: <Building2 className="h-6 w-6" />,
@@ -44,7 +44,7 @@ const PERSONAS = [
 
 export function ForWhom() {
   return (
-    <section className="py-16 sm:py-24 bg-[#030303]">
+    <section className="py-16 sm:py-24 bg-[#07070a]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center max-w-3xl mx-auto mb-12"
@@ -55,7 +55,7 @@ export function ForWhom() {
         >
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             ConversionPulse создан для тех, кто хочет{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-rose-300">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-violet-300">
               эффективно тратить бюджет
             </span>{" "}
             на привлечение клиентов
@@ -83,7 +83,7 @@ export function ForWhom() {
                   <h3 className="text-lg font-bold text-white">
                     {persona.title}
                   </h3>
-                  <p className="mt-2 text-sm text-white/50 leading-relaxed">
+                  <p className="mt-2 text-sm text-white/70 leading-relaxed">
                     {persona.description}
                   </p>
                 </div>

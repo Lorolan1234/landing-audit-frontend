@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
+import { MotionConfig } from "framer-motion";
 import type { Session } from "next-auth";
 
 interface ProvidersProps {
@@ -23,7 +24,7 @@ export function Providers({ children, session }: ProvidersProps) {
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        {children}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </QueryClientProvider>
     </SessionProvider>
   );

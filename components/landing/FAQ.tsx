@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const QUESTIONS = [
@@ -28,50 +28,61 @@ const QUESTIONS = [
   {
     question: "Как долго длится анализ?",
     answer:
-      "Полная диагностика занимает 3–5 минут. За это время система анализирует контент, структуру блоков, скорость загрузки и мобильную версию.",
+      "Обычно 2–3 минуты. За это время система анализирует контент, структуру блоков, скорость загрузки и мобильную версию.",
+  },
+  {
+    question: "Сколько это стоит?",
+    answer:
+      "Первая проверка бесплатная: оценка, главная проблема и топ-3 правки. Полный поблочный разбор с текстами замены и PDF — в платных тарифах, условия выше в разделе «Тарифы».",
+  },
+  {
+    question: "Что, если отчёт не поможет?",
+    answer:
+      "Если в платном отчёте не окажется ни одной полезной для вас правки — напишите нам в течение 14 дней, и мы вернём деньги.",
   },
 ];
 
-function FAQItem({ question, answer }: { question: string; answer: string }) {
+function FAQItem({ id, question, answer }: { id: string; question: string; answer: string }) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="border-b border-white/[0.06] last:border-0">
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex w-full items-start justify-between gap-4 py-5 text-left"
+      <h3>
+        <button
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          aria-controls={id}
+          className="flex w-full cursor-pointer items-start justify-between gap-4 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60 rounded-md"
+        >
+          <span className="text-sm font-semibold text-white/90 sm:text-base">
+            {question}
+          </span>
+          <ChevronDown
+            aria-hidden
+            className={`h-5 w-5 shrink-0 text-white/50 transition-transform duration-200 ${
+              open ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+      </h3>
+      {/* Ответ всегда в разметке: его видят поисковики и анализаторы */}
+      <div
+        id={id}
+        className={`grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
       >
-        <span className="text-sm font-semibold text-white/80 sm:text-base">
-          {question}
-        </span>
-        <ChevronDown
-          className={`h-5 w-5 shrink-0 text-white/25 transition-transform duration-200 ${
-            open ? "rotate-180" : ""
-          }`}
-        />
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <p className="pb-5 text-sm text-white/40 leading-relaxed">
-              {answer}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <div className="overflow-hidden">
+          <p className="pb-5 text-sm text-white/70 leading-relaxed">{answer}</p>
+        </div>
+      </div>
     </div>
   );
 }
 
 export function FAQ() {
   return (
-    <section className="py-16 sm:py-24 bg-[#030303]">
+    <section id="faq" className="py-16 sm:py-24 bg-[#07070a]">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-12"
@@ -92,8 +103,8 @@ export function FAQ() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          {QUESTIONS.map((q) => (
-            <FAQItem key={q.question} question={q.question} answer={q.answer} />
+          {QUESTIONS.map((q, i) => (
+            <FAQItem key={q.question} id={`faq-${i}`} question={q.question} answer={q.answer} />
           ))}
         </motion.div>
       </div>

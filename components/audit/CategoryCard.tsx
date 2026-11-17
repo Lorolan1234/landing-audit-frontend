@@ -18,7 +18,6 @@ interface CategoryCardProps {
   title: string;
   icon: React.ReactNode;
   data: AnyCategory;
-  weight: number;
   defaultOpen?: boolean;
 }
 
@@ -29,7 +28,7 @@ function getScoreHex(score: number): string {
   return "#ef4444";
 }
 
-export function CategoryCard({ title, icon, data, weight, defaultOpen = false }: CategoryCardProps) {
+export function CategoryCard({ title, icon, data, defaultOpen = false }: CategoryCardProps) {
   const [open, setOpen] = useState(defaultOpen);
   const hasCritical = data.critical_issues?.some((i) => i && i.trim());
   const criticalList = data.critical_issues?.filter((i) => i && i.trim()) ?? [];
@@ -71,7 +70,7 @@ export function CategoryCard({ title, icon, data, weight, defaultOpen = false }:
               </span>
             )}
           </div>
-          <p className="text-xs text-white/30 mt-0.5">{data.verdict} · вес {weight}%</p>
+          <p className="text-xs text-white/55 mt-0.5">{data.verdict}</p>
         </div>
         <div className="flex items-center gap-3 shrink-0">
           {data.score === null || data.score === undefined ? (

@@ -1,187 +1,180 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, X, Star, ArrowRight } from "lucide-react";
-
-interface PlanFeature {
-  text: string;
-  included: boolean;
-}
+import { Check, ShieldCheck, ArrowRight } from "lucide-react";
+import { CONTACT_URL } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 interface Plan {
   name: string;
-  badge?: string;
+  audience: string;
   price: string;
-  period: string;
-  description: string;
-  cta: string;
-  ctaStyle: "primary" | "secondary" | "outline";
-  features: PlanFeature[];
+  period?: string;
+  features: string[];
+  free?: boolean;
   highlighted?: boolean;
+  badge?: string;
 }
 
 const PLANS: Plan[] = [
   {
-    name: "Free",
+    name: "Бесплатно",
+    audience: "Чтобы понять, есть ли проблема",
     price: "0 ₽",
-    period: "",
-    description: "Для быстрой проверки перед запуском рекламы",
-    cta: "Начать бесплатно",
-    ctaStyle: "secondary",
+    free: true,
     features: [
-      { text: "3 проверки в месяц", included: true },
-      { text: "Индекс готовности 0–100", included: true },
-      { text: "Топ-3 критичных проблемы", included: true },
-      { text: "Стратегическая диагностика", included: true },
-      { text: "Полный поблочный разбор", included: false },
-      { text: "PDF-экспорт", included: false },
-      { text: "История аудитов", included: false },
+      "1 проверка",
+      "Индекс готовности 0–100",
+      "Главная стратегическая проблема",
+      "Топ-3 правки с приоритетами",
     ],
   },
   {
-    name: "Pro",
-    badge: "Популярный",
-    price: "1 490 ₽",
-    period: "/мес",
-    description: "Полная диагностика для маркетологов и предпринимателей",
-    cta: "14 дней бесплатно",
-    ctaStyle: "primary",
+    name: "Полный отчёт",
+    audience: "Для владельцев бизнеса",
+    price: "390 ₽",
+    period: "разово",
     highlighted: true,
+    badge: "Оптимально",
     features: [
-      { text: "Безлимит проверок", included: true },
-      { text: "Индекс готовности 0–100", included: true },
-      { text: "Топ-3 критичных проблемы", included: true },
-      { text: "Стратегическая диагностика", included: true },
-      { text: "Полный поблочный разбор", included: true },
-      { text: "PDF-экспорт", included: true },
-      { text: "История аудитов", included: true },
+      "Поблочный разбор всей страницы",
+      "Готовые тексты замены для каждого блока",
+      "PDF, который можно отдать разработчику",
+      "Повторная проверка после правок",
+      "Гарантия возврата 14 дней",
     ],
   },
   {
-    name: "Agency",
-    price: "4 990 ₽",
-    period: "/мес",
-    description: "Для агентств и команд с клиентскими проектами",
-    cta: "Связаться с нами",
-    ctaStyle: "outline",
+    name: "Пакет 10 отчётов",
+    audience: "Для маркетологов и агентств",
+    price: "2 490 ₽",
+    period: "249 ₽ за отчёт",
     features: [
-      { text: "Безлимит проверок", included: true },
-      { text: "Всё из тарифа Pro", included: true },
-      { text: "Мониторинг изменений", included: true },
-      { text: "API-доступ", included: true },
-      { text: "Белый лейбл (ваш логотип)", included: true },
-      { text: "Приоритетная поддержка", included: true },
-      { text: "Командный доступ", included: true },
+      "10 полных отчётов",
+      "Без срока действия",
+      "Для любых сайтов и клиентов",
+      "История проверок",
+      "Гарантия возврата 14 дней",
+    ],
+  },
+  {
+    name: "Неделя",
+    audience: "Когда правите сайт прямо сейчас",
+    price: "1 490 ₽",
+    period: "7 дней",
+    features: [
+      "До 30 полных отчётов в сутки",
+      "Проверяйте после каждой правки",
+      "Сравнение «до и после»",
+      "PDF для разработчика",
+      "Гарантия возврата 14 дней",
     ],
   },
 ];
 
-const CTA_STYLES = {
-  primary:
-    "bg-brand-600 text-white hover:bg-brand-700 shadow-sm",
-  secondary:
-    "bg-gray-900 text-white hover:bg-gray-800 shadow-sm",
-  outline:
-    "bg-white text-gray-900 ring-1 ring-gray-200 hover:bg-gray-50",
-};
+function scrollToForm() {
+  document.querySelector("#hero-form")?.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function PlanButton({ plan }: { plan: Plan }) {
+  const base =
+    "mt-6 flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300";
+
+  if (plan.free) {
+    return (
+      <button onClick={scrollToForm} className={cn(base, "cursor-pointer border border-white/15 bg-white/[0.06] text-white hover:bg-white/[0.1]")}>
+        Проверить бесплатно
+        <ArrowRight className="h-4 w-4" aria-hidden />
+      </button>
+    );
+  }
+  const style = plan.highlighted
+    ? "bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-lg shadow-indigo-500/25 hover:brightness-110"
+    : "border border-white/15 bg-white/[0.06] text-white hover:bg-white/[0.1]";
+
+  if (!CONTACT_URL) {
+    return (
+      <button disabled className={cn(base, style, "cursor-not-allowed opacity-60")}>
+        Скоро
+      </button>
+    );
+  }
+  return (
+    <a href={CONTACT_URL} target="_blank" rel="noopener noreferrer" className={cn(base, style)}>
+      Оставить заявку
+      <ArrowRight className="h-4 w-4" aria-hidden />
+    </a>
+  );
+}
 
 export function Pricing() {
-  const scrollToForm = () => {
-    const el = document.querySelector("#hero-form");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <section id="pricing" className="py-16 sm:py-24 bg-gray-50/50">
+    <section id="pricing" className="bg-[#0c0c11] py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Заголовок */}
         <motion.div
-          className="text-center max-w-2xl mx-auto mb-12"
+          className="mx-auto mb-12 max-w-2xl text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-            Тарифы
-          </h2>
-          <p className="mt-4 text-lg text-gray-500">
-            Начните бесплатно. Масштабируйте когда нужно.
+          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Тарифы</h2>
+          <p className="mt-4 text-lg text-white/65">
+            Начните бесплатно. Платите, только когда нужен полный разбор.
           </p>
         </motion.div>
 
-        {/* Карточки тарифов */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-start">
+        <div className="grid items-start gap-6 md:grid-cols-2 lg:grid-cols-4">
           {PLANS.map((plan, i) => (
             <motion.div
               key={plan.name}
-              className={`relative rounded-2xl border p-6 lg:p-8 ${
+              className={cn(
+                "relative rounded-2xl border p-6",
                 plan.highlighted
-                  ? "border-brand-300 bg-white shadow-lg ring-1 ring-brand-200"
-                  : "border-gray-200 bg-white shadow-sm"
-              }`}
+                  ? "border-indigo-400/40 bg-indigo-500/[0.06] shadow-xl shadow-indigo-500/10"
+                  : "border-white/[0.08] bg-white/[0.02]",
+              )}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
             >
-              {/* Бейдж */}
               {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white shadow-sm">
-                    <Star className="h-3 w-3" />
-                    {plan.badge}
-                  </span>
-                </div>
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-3 py-1 text-xs font-semibold text-white">
+                  {plan.badge}
+                </span>
               )}
-
-              {/* Название */}
-              <h3 className="text-lg font-bold text-gray-900">{plan.name}</h3>
-              <p className="mt-1 text-sm text-gray-500">{plan.description}</p>
-
-              {/* Цена */}
-              <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-4xl font-extrabold text-gray-900">{plan.price}</span>
-                {plan.period && (
-                  <span className="text-sm text-gray-500">{plan.period}</span>
-                )}
-              </div>
-
-              {/* CTA */}
-              <button
-                onClick={scrollToForm}
-                className={`mt-6 w-full flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
-                  CTA_STYLES[plan.ctaStyle]
-                }`}
-              >
-                {plan.cta}
-                <ArrowRight className="h-4 w-4" />
-              </button>
-
-              {/* Разделитель */}
-              <div className="mt-6 border-t border-gray-100 pt-6">
-                <ul className="space-y-3">
-                  {plan.features.map((feature) => (
-                    <li key={feature.text} className="flex items-start gap-3">
-                      {feature.included ? (
-                        <Check className="h-4 w-4 text-brand-600 mt-0.5 shrink-0" />
-                      ) : (
-                        <X className="h-4 w-4 text-gray-300 mt-0.5 shrink-0" />
-                      )}
-                      <span
-                        className={`text-sm ${
-                          feature.included ? "text-gray-700" : "text-gray-400"
-                        }`}
-                      >
-                        {feature.text}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <h3 className="text-lg font-bold text-white">{plan.name}</h3>
+              <p className="mt-1 min-h-10 text-sm text-white/60">{plan.audience}</p>
+              <p className="mt-5 flex flex-wrap items-baseline gap-x-1.5">
+                <span className="whitespace-nowrap text-4xl font-extrabold text-white">{plan.price}</span>
+                {plan.period && <span className="text-sm text-white/60">{plan.period}</span>}
+              </p>
+              <PlanButton plan={plan} />
+              <ul className="mt-6 space-y-3 border-t border-white/[0.08] pt-6">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex items-start gap-3 text-sm text-white/80">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" aria-hidden />
+                    {f}
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           ))}
         </div>
+
+        <div className="mx-auto mt-8 flex max-w-3xl flex-col items-center gap-3 rounded-2xl border border-emerald-400/20 bg-emerald-500/[0.05] p-5 text-center sm:flex-row sm:text-left">
+          <ShieldCheck className="h-8 w-8 shrink-0 text-emerald-400" aria-hidden />
+          <p className="text-sm leading-relaxed text-white/80">
+            <span className="font-semibold text-white">Гарантия возврата.</span> Если в платном
+            отчёте не окажется ни одной полезной для вас правки — напишите в течение 14 дней,
+            и мы вернём деньги.
+          </p>
+        </div>
+
+        <p className="mt-6 text-center text-sm text-white/60">
+          Агентствам: отчёты с вашим логотипом и командный доступ — по запросу.
+        </p>
       </div>
     </section>
   );

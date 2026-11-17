@@ -1,109 +1,74 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Search, ArrowRight, Loader2 } from "lucide-react";
-import { HeroGeometric } from "@/components/ui/shape-landing-hero";
-import { createAudit } from "@/lib/api";
+import { motion, useReducedMotion } from "framer-motion";
+import { Check } from "lucide-react";
+import { UrlForm } from "./UrlForm";
+import { HeroReportCard } from "./HeroReportCard";
+import { ANALYSIS_TIME } from "@/lib/site";
+
+const PERKS = ["Бесплатно", "Без регистрации", `Отчёт за ${ANALYSIS_TIME}`];
 
 export function Hero() {
-  const [url, setUrl] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    let normalizedUrl = url.trim();
-    if (!normalizedUrl) {
-      setError("Введите URL сайта");
-      return;
-    }
-    if (!normalizedUrl.startsWith("http")) {
-      normalizedUrl = "https://" + normalizedUrl;
-    }
-    try {
-      new URL(normalizedUrl);
-    } catch {
-      setError("Введите корректный URL");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const result = await createAudit(normalizedUrl);
-      router.push(`/audit/${result.id}`);
-    } catch (err: unknown) {
-      setError(
-        err instanceof Error ? err.message : "Не удалось запустить проверку"
-      );
-      setLoading(false);
-    }
-  };
+  const reduce = useReducedMotion();
+  const fade = (delay: number) =>
+    reduce
+      ? {}
+      : {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
+        };
 
   return (
-    <HeroGeometric
-      badge="Не просто аудит — готовый план правок"
-      title1="Узнайте, почему ваш сайт"
-      title2="не приносит конверсии"
-      subtitle="Вставьте URL — получите конкретные рекомендации с готовыми текстами и приоритетами. Без воды и абстрактных советов."
-    >
-      {/* Форма аудита */}
-      <form
-        id="hero-form"
-        onSubmit={handleSubmit}
-        className="mx-auto max-w-xl mt-4"
-      >
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="relative flex-1">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-              <Search className="h-4 w-4 text-white/30" />
-            </div>
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => {
-                setUrl(e.target.value);
-                setError("");
-              }}
-              placeholder="https://example.com"
-              disabled={loading}
-              className={`w-full rounded-xl border bg-white/[0.05] backdrop-blur-sm py-3.5 pl-10 pr-4 text-sm text-white placeholder-white/30 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent ${
-                error
-                  ? "border-red-400/50 ring-1 ring-red-400/50"
-                  : "border-white/[0.1] hover:border-white/[0.2]"
-              } disabled:opacity-60`}
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-rose-500 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:ring-offset-2 focus:ring-offset-[#030303] transition-all disabled:opacity-60 disabled:cursor-not-allowed shrink-0"
+    <section className="relative overflow-hidden bg-[#07070a] pt-28 pb-16 sm:pt-32 lg:pt-40 lg:pb-28">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-0 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-indigo-600/[0.12] blur-[120px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
+      </div>
+
+      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:px-8">
+        <div className="text-center lg:text-left">
+          <motion.p
+            {...fade(0)}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-sm text-white/70"
           >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Анализируем...
-              </>
-            ) : (
-              <>
-                Проверить бесплатно
-                <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </button>
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
+            Аудит конверсии посадочных страниц
+          </motion.p>
+
+          <motion.h1
+            {...fade(0.08)}
+            className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight text-white text-balance sm:text-5xl lg:text-[3.5rem]"
+          >
+            Найдём, где ваш сайт теряет заявки,{" "}
+            <span className="bg-gradient-to-r from-indigo-300 to-violet-300 bg-clip-text text-transparent">
+              и дадим готовые правки
+            </span>
+          </motion.h1>
+
+          <motion.p
+            {...fade(0.16)}
+            className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/70 lg:mx-0"
+          >
+            Вставьте ссылку — через {ANALYSIS_TIME} получите оценку 0–100, три главных блокера
+            и готовые тексты замены, которые можно сразу отдать разработчику.
+          </motion.p>
+
+          <motion.div {...fade(0.24)} className="mx-auto mt-8 max-w-xl lg:mx-0">
+            <UrlForm id="hero-form" />
+            <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-white/60 lg:justify-start">
+              {PERKS.map((p) => (
+                <li key={p} className="flex items-center gap-1.5">
+                  <Check className="h-4 w-4 text-emerald-400" aria-hidden />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
 
-        {error && (
-          <p className="mt-2 text-sm text-red-400 text-left">{error}</p>
-        )}
-
-        <p className="mt-4 text-xs text-white/25">
-          Первая проверка бесплатно · Без регистрации · Отчёт за 3–5 минут
-        </p>
-      </form>
-    </HeroGeometric>
+        <HeroReportCard />
+      </div>
+    </section>
   );
 }
