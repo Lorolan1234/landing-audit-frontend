@@ -1,8 +1,8 @@
 "use client";
 
-import { quoted } from "@/lib/utils";
-
 import { useState } from "react";
+import { AlertTriangle } from "lucide-react";
+import { cn, quoted } from "@/lib/utils";
 import type { PageBlockAnalysis } from "@/types/audit";
 
 interface ProblemItem {
@@ -18,8 +18,20 @@ interface RecommendationItem {
   expected_impact?: string;
 }
 
-export function BlockAnalysisCard({ block }: { block: PageBlockAnalysis }) {
-  const [isOpen, setIsOpen] = useState(false);
+export function BlockAnalysisCard({
+  block,
+  open,
+  onToggle,
+  active = false,
+}: {
+  block: PageBlockAnalysis;
+  open?: boolean;
+  onToggle?: () => void;
+  active?: boolean;
+}) {
+  const [innerOpen, setInnerOpen] = useState(false);
+  const isOpen = open ?? innerOpen;
+  const toggle = onToggle ?? (() => setInnerOpen((v) => !v));
 
   const rawProblems =
     (block.problem_items?.length ? block.problem_items : block.problems) ?? [];
@@ -36,30 +48,38 @@ export function BlockAnalysisCard({ block }: { block: PageBlockAnalysis }) {
   const criticalCount = problemList.filter((p) => p.severity === "critical").length;
 
   return (
-    <div className="border border-white/[0.08] rounded-lg overflow-hidden bg-white/[0.02]">
+    <div
+      id={`block-${block.block_order}`}
+      className={cn(
+        "scroll-mt-24 overflow-hidden rounded-xl border bg-white/[0.02] transition-colors",
+        active ? "border-indigo-400/60 ring-1 ring-indigo-400/30" : "border-white/[0.08]",
+      )}
+    >
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-4 flex items-center justify-between hover:bg-white/[0.03] transition-colors"
+        onClick={toggle}
+        aria-expanded={isOpen}
+        className="flex w-full cursor-pointer items-center justify-between gap-3 p-4 text-left transition-colors hover:bg-white/[0.03]"
       >
-        <div className="flex items-center gap-3">
-          <span className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center text-sm font-medium text-white/70">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className={cn("flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-semibold", active ? "bg-indigo-500 text-white" : "bg-white/[0.06] text-white/70")}>
             {block.block_order}
           </span>
-          <div className="text-left">
-            <span className="font-semibold text-white/80">{block.block_name}</span>
+          <div className="min-w-0 text-left">
+            <span className="font-semibold text-white/90">{block.block_name}</span>
             {(block.current_content?.headline ?? block.heading_quote) && (
-              <p className="text-sm text-white/55 truncate max-w-[200px]">
+              <p className="truncate text-sm text-white/55">
                 {quoted(block.current_content?.headline ?? block.heading_quote)}
               </p>
             )}
           </div>
           {criticalCount > 0 && (
-            <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded shrink-0">
-              ⚠️ {criticalCount} крит.
+            <span className="inline-flex shrink-0 items-center gap-1 rounded bg-red-500/15 px-2 py-0.5 text-xs text-red-300">
+              <AlertTriangle className="h-3 w-3" aria-hidden />
+              {criticalCount} крит.
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           {block.score != null && (
             <span
               className={`text-xl font-bold ${

@@ -18,7 +18,6 @@ import { SpeedMetrics } from "@/components/audit/SpeedMetrics";
 import { Button } from "@/components/ui/Button";
 import { AuditForm } from "@/components/audit/AuditForm";
 import { StrategicDiagnosis } from "@/components/audit/StrategicDiagnosis";
-import { BlockAnalysisCard } from "@/components/audit/BlockAnalysisCard";
 import { MissingElements } from "@/components/audit/MissingElements";
 import { Section } from "@/components/report/Section";
 import { ReportToc, type TocItem } from "@/components/report/ReportToc";
@@ -26,8 +25,10 @@ import { ReportSummary } from "@/components/report/ReportSummary";
 import { StartHere } from "@/components/report/StartHere";
 import { ReadyRewrites, collectRewrites } from "@/components/report/ReadyRewrites";
 import { ProsCons } from "@/components/report/ProsCons";
+import { PageMap } from "@/components/report/PageMap";
+import { SiteThumbs } from "@/components/report/SiteThumbs";
 
-import type { AIAnalysisResult, SpeedData } from "@/types/audit";
+import type { AIAnalysisResult, ReportMedia, SpeedData } from "@/types/audit";
 import { CATEGORY_META, MARKETING_CATEGORIES, TECHNICAL_CATEGORIES } from "@/types/audit";
 
 const ICON_MAP: Record<string, React.ReactNode> = {
@@ -75,6 +76,7 @@ export default function AuditPage({ params }: PageProps) {
   const router = useRouter();
   const { status, fullResult, error } = useAuditPolling(id);
   const ai = (fullResult?.ai_result ?? null) as AIAnalysisResult | null;
+  const media = (fullResult?.screenshots ?? null) as ReportMedia | null;
 
   const content = useMemo(() => {
     if (!ai) return null;
@@ -169,7 +171,13 @@ export default function AuditPage({ params }: PageProps) {
           <span className="max-w-xs truncate font-medium text-white/70">{shortUrl(status.url, 40)}</span>
         </nav>
 
-        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 items-center gap-5">
+          {media && (media.desktop_thumb || media.mobile_thumb) && (
+            <div className="hidden w-44 shrink-0 sm:block">
+              <SiteThumbs auditId={id} media={media} site={shortUrl(status.url, 30)} />
+            </div>
+          )}
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-wider text-white/45">Аудит конверсии</p>
             <h1 className="mt-1 flex items-center gap-2 text-2xl font-bold text-white">
@@ -188,6 +196,7 @@ export default function AuditPage({ params }: PageProps) {
               {formatDate(status.created_at)}
               {content?.blocks.length ? ` · ${content.blocks.length} блоков` : ""}
             </p>
+          </div>
           </div>
 
           {fullResult && (
@@ -281,11 +290,13 @@ export default function AuditPage({ params }: PageProps) {
                 {sec("blocks") && (
                   <Section id="blocks" number={sec("blocks")!.number} title="Разбор по блокам"
                     lead="Каждый блок страницы сверху вниз: что сейчас, что мешает и как исправить.">
-                    <div className="space-y-3">
-                      {content.blocks.map((block) => (
-                        <BlockAnalysisCard key={block.block_order} block={block} />
-                      ))}
-                    </div>
+                    <PageMap
+                      auditId={id}
+                      image={media?.desktop}
+                      regions={media?.blocks ?? []}
+                      blocks={content.blocks}
+                      site={shortUrl(status.url, 40)}
+                    />
                   </Section>
                 )}
 

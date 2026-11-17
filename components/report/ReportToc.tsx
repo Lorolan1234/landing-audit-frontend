@@ -26,7 +26,14 @@ export function ReportToc({ items }: { items: TocItem[] }) {
       { rootMargin: "-20% 0px -65% 0px" },
     );
     els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const onScroll = () => {
+      if (window.scrollY < 200 && items[0]) setActive(items[0].id);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [items]);
 
   return (

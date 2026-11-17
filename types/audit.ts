@@ -224,3 +224,26 @@ export const TECHNICAL_CATEGORIES = [
   'mobile_friendliness',
   'analytics_tracking',
 ] as const;
+
+export interface MediaImage {
+  file: string;
+  width: number;
+  height: number;
+  page_height?: number;
+}
+
+export interface BlockRegion {
+  block_order: number;
+  top: number;
+  height: number;
+}
+
+export interface ReportMedia {
+  available?: boolean;
+  desktop?: MediaImage;
+  desktop_thumb?: MediaImage;
+  mobile_thumb?: MediaImage;
+  blocks?: BlockRegion[];
+}
+
+export const mediaUrl = (auditId: string, file: string) => `/api/v1/audit/${auditId}/media/${file}`;
