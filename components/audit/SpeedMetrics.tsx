@@ -17,7 +17,7 @@ function MetricRow({ label, value, unit, good, warn }: {
 
   return (
     <div className="flex items-center justify-between py-2 border-b border-white/[0.04] last:border-0">
-      <span className="text-sm text-white/40">{label}</span>
+      <span className="text-sm text-white/65">{label}</span>
       <span className={cn("text-sm font-semibold px-2 py-0.5 rounded-md", color, bg)}>
         {value}<span className="font-normal text-xs ml-0.5">{unit}</span>
       </span>
@@ -31,7 +31,7 @@ function StrategyBlock({ title, metrics }: { title: string; metrics: ISpeedMetri
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-semibold text-white/60">{title}</h3>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-white/25">Score</span>
+          <span className="text-xs text-white/50">Score</span>
           <span className={cn("text-lg font-black",
             metrics.performance_score >= 90 ? "text-green-400" :
             metrics.performance_score >= 50 ? "text-amber-400" : "text-red-400",
@@ -57,7 +57,7 @@ export function SpeedMetrics({ data }: SpeedMetricsProps) {
         <h2 className="text-base font-bold text-white/80">Скорость загрузки</h2>
         <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6 text-center text-sm">
           <p className="font-medium text-amber-400">Метрики скорости недоступны</p>
-          <p className="mt-1 text-white/40">{reason}</p>
+          <p className="mt-1 text-white/65">{reason}</p>
         </div>
       </div>
     );
@@ -72,7 +72,7 @@ export function SpeedMetrics({ data }: SpeedMetricsProps) {
           <span className="text-red-400 shrink-0 mt-0.5 text-sm">✗</span>
           <div>
             <p className="text-sm font-medium text-red-400">Core Web Vitals не пройдены</p>
-            <p className="text-xs text-white/40 mt-0.5">
+            <p className="text-xs text-white/65 mt-0.5">
               Метрики скорости не соответствуют стандартам Google.
             </p>
           </div>
@@ -84,7 +84,7 @@ export function SpeedMetrics({ data }: SpeedMetricsProps) {
           <span className="text-green-400 shrink-0 mt-0.5 text-sm">✓</span>
           <div>
             <p className="text-sm font-medium text-green-400">Core Web Vitals пройдены</p>
-            <p className="text-xs text-white/40 mt-0.5">Скорость загрузки соответствует стандартам Google.</p>
+            <p className="text-xs text-white/65 mt-0.5">Скорость загрузки соответствует стандартам Google.</p>
           </div>
         </div>
       )}

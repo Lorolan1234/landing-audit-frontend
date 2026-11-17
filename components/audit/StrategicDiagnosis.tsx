@@ -1,30 +1,24 @@
-"use client";
+import { TrendingDown } from "lucide-react";
 
 export function StrategicDiagnosis({
   data,
 }: {
   data: { headline: string; description: string; conversion_impact: string };
 }) {
-  if (!data?.headline) return null;
+  if (!data?.description && !data?.conversion_impact) return null;
 
   return (
-    <div className="rounded-xl bg-amber-500/10 border-2 border-amber-500/30 p-6">
-      <div className="flex items-start gap-3">
-        <span className="text-3xl">⚠️</span>
-        <div>
-          <p className="text-sm font-semibold text-amber-400 uppercase tracking-wide">
-            Стратегическая проблема
+    <div className="rounded-2xl border border-amber-400/20 bg-amber-500/[0.04] p-5 sm:p-6">
+      {data.description && <p className="text-base leading-relaxed text-white/80">{data.description}</p>}
+      {data.conversion_impact && (
+        <div className="mt-5 flex gap-3 border-t border-amber-400/15 pt-4">
+          <TrendingDown className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" aria-hidden />
+          <p className="text-sm leading-relaxed text-white/70">
+            <span className="font-semibold text-amber-300">Как это влияет на заявки: </span>
+            {data.conversion_impact}
           </p>
-          <h3 className="text-xl font-bold text-amber-300 mt-1">{data.headline}</h3>
-          <p className="text-amber-200/70 mt-3 leading-relaxed">{data.description}</p>
-          <div className="mt-4 bg-amber-500/10 rounded-lg p-3 border border-amber-500/20">
-            <p className="text-sm">
-              <span className="font-semibold text-amber-300">Влияние на конверсию: </span>
-              <span className="text-amber-200/70">{data.conversion_impact}</span>
-            </p>
-          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -61,3 +61,14 @@ export function formatDuration(seconds: number | null): string {
   if (seconds < 60) return `${Math.round(seconds)} сек`;
   return `${Math.floor(seconds / 60)} мин ${Math.round(seconds % 60)} сек`;
 }
+
+/** Оборачивает текст в «ёлочки», не удваивая уже стоящие кавычки. */
+export function quoted(text: string | null | undefined): string {
+  const t = (text ?? "").trim().replace(/^[«"“„']+|[»"”']+$/g, "").trim();
+  return t ? `«${t}»` : "";
+}
+
+/** Убирает эмодзи и символы в начале подписи, например «🟢 Хороший уровень». */
+export function stripLeadingSymbols(text: string | null | undefined): string {
+  return (text ?? "").replace(/^[^\p{L}\p{N}]+/u, "").trim();
+}

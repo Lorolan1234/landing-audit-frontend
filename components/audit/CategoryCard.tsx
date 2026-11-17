@@ -57,7 +57,7 @@ export function CategoryCard({ title, icon, data, defaultOpen = false }: Categor
         className="w-full flex items-center gap-4 p-5 text-left"
         onClick={() => setOpen(!open)}
       >
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.05] text-white/40">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.05] text-white/65">
           {icon}
         </div>
         <div className="flex-1 min-w-0">
@@ -75,8 +75,8 @@ export function CategoryCard({ title, icon, data, defaultOpen = false }: Categor
         <div className="flex items-center gap-3 shrink-0">
           {data.score === null || data.score === undefined ? (
             <div className="text-right">
-              <span className="text-2xl font-black text-white/25">—</span>
-              <p className="text-[10px] text-white/25 leading-none">нет данных</p>
+              <span className="text-2xl font-black text-white/50">—</span>
+              <p className="text-[10px] text-white/50 leading-none">нет данных</p>
             </div>
           ) : (
             <>
@@ -84,7 +84,7 @@ export function CategoryCard({ title, icon, data, defaultOpen = false }: Categor
                 <span className={cn("text-2xl font-black", getScoreColor(data.score))}>
                   {data.score}
                 </span>
-                <span className="text-xs text-white/20">/10</span>
+                <span className="text-xs text-white/45">/10</span>
               </div>
               <div className="w-1.5 h-10 bg-white/[0.06] rounded-full overflow-hidden">
                 <div
@@ -99,9 +99,9 @@ export function CategoryCard({ title, icon, data, defaultOpen = false }: Categor
             </>
           )}
           {open ? (
-            <ChevronUp className="h-4 w-4 text-white/30" />
+            <ChevronUp className="h-4 w-4 text-white/55" />
           ) : (
-            <ChevronDown className="h-4 w-4 text-white/30" />
+            <ChevronDown className="h-4 w-4 text-white/55" />
           )}
         </div>
       </button>
@@ -125,7 +125,7 @@ export function CategoryCard({ title, icon, data, defaultOpen = false }: Categor
                       </p>
                       <p className="text-sm text-white/60 italic">«{firstScreen.headline_quote}»</p>
                       {firstScreen.headline_assessment && (
-                        <p className="text-xs text-white/40 mt-1">{firstScreen.headline_assessment}</p>
+                        <p className="text-xs text-white/65 mt-1">{firstScreen.headline_assessment}</p>
                       )}
                     </div>
                   )}
@@ -167,14 +167,14 @@ export function CategoryCard({ title, icon, data, defaultOpen = false }: Categor
 
               {hasCTAButtons && (
                 <div>
-                  <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2">
+                  <h4 className="text-xs font-semibold text-white/65 uppercase tracking-wide mb-2">
                     Найденные CTA-кнопки
                   </h4>
                   <div className="space-y-2">
                     {ctaAnalysis.cta_buttons_found.map((btn, i) => (
                       <div key={i} className="rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2.5">
                         <span className="text-sm font-medium text-white/70">«{btn.text}»</span>
-                        <p className="text-xs text-white/40 mt-1">{btn.assessment}</p>
+                        <p className="text-xs text-white/65 mt-1">{btn.assessment}</p>
                         {btn.rewrite && (
                           <p className="text-xs font-medium text-green-400 mt-1.5 flex items-center gap-1">
                             <ArrowRight className="h-3 w-3 shrink-0" />
@@ -232,11 +232,11 @@ export function CategoryCard({ title, icon, data, defaultOpen = false }: Categor
 
               {data.findings?.length > 0 && (
                 <div>
-                  <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wide mb-2">Наблюдения</h4>
+                  <h4 className="text-xs font-semibold text-white/65 uppercase tracking-wide mb-2">Наблюдения</h4>
                   <ul className="space-y-1.5">
                     {data.findings.map((item, i) => (
-                      <li key={i} className="flex gap-2 text-sm text-white/50">
-                        <span className="text-white/20 mt-0.5">•</span>
+                      <li key={i} className="flex gap-2 text-sm text-white/70">
+                        <span className="text-white/45 mt-0.5">•</span>
                         {item}
                       </li>
                     ))}
