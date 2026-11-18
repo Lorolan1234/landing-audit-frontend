@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { UrlForm } from "./UrlForm";
-import { ANALYSIS_TIME } from "@/lib/site";
+import { ANALYSIS_TIME, SHOW_PRICING } from "@/lib/site";
 
 export function FinalCTA() {
   return (
@@ -23,7 +23,7 @@ export function FinalCTA() {
           </span>
         </h2>
         <p className="mt-4 text-lg text-white/70">
-          Первая проверка бесплатно. Результат через {ANALYSIS_TIME}.
+          {SHOW_PRICING ? "Первая проверка бесплатно." : "Бесплатно, без регистрации."} Результат через {ANALYSIS_TIME}.
         </p>
         <UrlForm id="final-form" buttonLabel="Проверить мой сайт" className="mx-auto mt-8 max-w-xl" />
         <p className="mt-4 text-sm text-white/60">Без регистрации · Готовые тексты замены · PDF</p>

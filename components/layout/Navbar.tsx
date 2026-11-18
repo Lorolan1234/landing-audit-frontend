@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { SHOW_PRICING } from "@/lib/site";
 
 const NAV_LINKS = [
   { label: "Возможности", href: "#features" },
   { label: "Как работает", href: "#how-it-works" },
-  { label: "Тарифы", href: "#pricing" },
+  ...(SHOW_PRICING ? [{ label: "Тарифы", href: "#pricing" }] : []),
   { label: "Вопросы", href: "#faq" },
 ];
 

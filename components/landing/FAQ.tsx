@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { SHOW_PRICING } from "@/lib/site";
 
 const QUESTIONS = [
   {
@@ -30,7 +31,7 @@ const QUESTIONS = [
     answer:
       "Обычно 2–3 минуты. За это время система анализирует контент, структуру блоков, скорость загрузки и мобильную версию.",
   },
-  {
+  ...(SHOW_PRICING ? [{
     question: "Сколько это стоит?",
     answer:
       "Первая проверка бесплатная: оценка, главная проблема и топ-3 правки. Полный поблочный разбор с текстами замены и PDF — в платных тарифах, условия выше в разделе «Тарифы».",
@@ -39,7 +40,7 @@ const QUESTIONS = [
     question: "Что, если отчёт не поможет?",
     answer:
       "Если в платном отчёте не окажется ни одной полезной для вас правки — напишите нам в течение 14 дней, и мы вернём деньги.",
-  },
+  }] : []),
 ];
 
 function FAQItem({ id, question, answer }: { id: string; question: string; answer: string }) {

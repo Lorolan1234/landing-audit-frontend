@@ -10,6 +10,7 @@ import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { StickyMobileCTA } from "@/components/landing/StickyMobileCTA";
 import { Footer } from "@/components/layout/Footer";
+import { SHOW_PRICING } from "@/lib/site";
 
 export default function HomePage() {
   return (
@@ -21,7 +22,7 @@ export default function HomePage() {
       <HowItWorks />
       <ReportPreview />
       <ForWhom />
-      <Pricing />
+      {SHOW_PRICING && <Pricing />}
       <FAQ />
       <FinalCTA />
       <Footer />

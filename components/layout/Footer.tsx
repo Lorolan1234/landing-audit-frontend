@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { SHOW_PRICING } from "@/lib/site";
 
 const LINKS = [
   { label: "Как работает", href: "/#how-it-works" },
-  { label: "Тарифы", href: "/#pricing" },
+  ...(SHOW_PRICING ? [{ label: "Тарифы", href: "/#pricing" }] : []),
   { label: "Вопросы", href: "/#faq" },
 ];
 

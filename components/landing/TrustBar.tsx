@@ -1,11 +1,13 @@
-import { Zap, ListChecks, MonitorSmartphone, ShieldCheck } from "lucide-react";
-import { ANALYSIS_TIME } from "@/lib/site";
+import { Zap, ListChecks, MonitorSmartphone, ShieldCheck, PenLine } from "lucide-react";
+import { ANALYSIS_TIME, SHOW_PRICING } from "@/lib/site";
 
 const FACTS = [
   { icon: Zap, value: ANALYSIS_TIME, label: "среднее время анализа" },
   { icon: ListChecks, value: "15+ критериев", label: "оффер, CTA, доверие, скорость" },
   { icon: MonitorSmartphone, value: "Mobile + Desktop", label: "с реальными метриками скорости" },
-  { icon: ShieldCheck, value: "Гарантия возврата", label: "на платные отчёты" },
+  SHOW_PRICING
+    ? { icon: ShieldCheck, value: "Гарантия возврата", label: "на платные отчёты" }
+    : { icon: PenLine, value: "Готовые тексты", label: "замены для каждого блока" },
 ];
 
 export function TrustBar() {
