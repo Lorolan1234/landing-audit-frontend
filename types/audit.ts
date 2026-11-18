@@ -9,22 +9,31 @@ export interface CategoryResult {
   critical_issues: string[];
 }
 
+/** Вариант готового текста и подход, на котором он построен («Выгода», «Цифры»…) */
+export interface TextVariant {
+  text: string;
+  angle?: string;
+}
+
 export interface CTAButton {
   text: string;
   assessment: string;
   rewrite?: string;
+  variants?: TextVariant[];
 }
 
 export interface OfferClarity extends CategoryResult {
   main_offer_detected: string;
   offer_problems?: string[];
   offer_rewrite?: string;
+  offer_variants?: TextVariant[];
 }
 
 export interface FirstScreen extends CategoryResult {
   headline_quote?: string;
   headline_assessment?: string;
   headline_rewrite?: string;
+  headline_variants?: TextVariant[];
 }
 
 export interface CTAAnalysis extends CategoryResult {
