@@ -17,6 +17,10 @@ export function ReportToc({ items }: { items: TocItem[] }) {
       .filter((el): el is HTMLElement => !!el);
     const observer = new IntersectionObserver(
       (entries) => {
+        if (window.scrollY < 200) {
+          setActive(items[0]?.id);
+          return;
+        }
         const visible = entries.filter((e) => e.isIntersecting);
         if (visible.length) {
           visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -34,7 +38,8 @@ export function ReportToc({ items }: { items: TocItem[] }) {
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
     };
-  }, [items]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.map((i) => i.id).join(",")]);
 
   return (
     <nav aria-label="Разделы отчёта" className="sticky top-24">
