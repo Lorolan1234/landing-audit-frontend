@@ -256,3 +256,28 @@ export interface ReportMedia {
 }
 
 export const mediaUrl = (auditId: string, file: string) => `/api/v1/audit/${auditId}/media/${file}`;
+
+// ── «Было / стало» ─────────────────────────────────────────────────
+
+export type CheckStatus = "pass" | "partial" | "fail";
+
+export interface ChangedCheck {
+  id: string;
+  title: string;
+  category?: ScoredCategory;
+  before: CheckStatus;
+  after: CheckStatus;
+  critical: boolean;
+}
+
+export interface ReportComparison {
+  id: string;
+  created_at: string;
+  index_before: number | null;
+  index_after: number | null;
+  categories: { key: ScoredCategory; before: number; after: number }[];
+  fixed: ChangedCheck[];
+  worse: ChangedCheck[];
+  still_failing: number;
+  same_rubric: boolean;
+}

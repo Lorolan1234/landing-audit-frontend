@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useMemo } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -27,8 +27,10 @@ import { ReadyRewrites, collectRewrites } from "@/components/report/ReadyRewrite
 import { ProsCons } from "@/components/report/ProsCons";
 import { PageMap } from "@/components/report/PageMap";
 import { SiteThumbs } from "@/components/report/SiteThumbs";
+import { BeforeAfter } from "@/components/report/BeforeAfter";
+import { getPreviousComparison } from "@/lib/api";
 
-import type { AIAnalysisResult, ReportMedia, SpeedData } from "@/types/audit";
+import type { AIAnalysisResult, ReportComparison, ReportMedia, SpeedData } from "@/types/audit";
 import { CATEGORY_META, MARKETING_CATEGORIES, TECHNICAL_CATEGORIES } from "@/types/audit";
 
 const ICON_MAP: Record<string, React.ReactNode> = {
@@ -77,6 +79,17 @@ export default function AuditPage({ params }: PageProps) {
   const { status, fullResult, error } = useAuditPolling(id);
   const ai = (fullResult?.ai_result ?? null) as AIAnalysisResult | null;
   const media = (fullResult?.screenshots ?? null) as ReportMedia | null;
+  const [previous, setPrevious] = useState<ReportComparison | null>(null);
+  const completed = status?.status === "completed";
+
+  useEffect(() => {
+    if (!completed) return;
+    let alive = true;
+    getPreviousComparison(id).then((p) => alive && setPrevious(p));
+    return () => {
+      alive = false;
+    };
+  }, [id, completed]);
 
   const content = useMemo(() => {
     if (!ai) return null;
@@ -149,6 +162,7 @@ export default function AuditPage({ params }: PageProps) {
     sections.push({ id: sid, label, number: num() });
     toc.push({ id: sid, label });
   };
+  add(!!previous, "changes", "Что изменилось");
   add(!!content?.priorities.length, "start", "С чего начать");
   add(!!content?.hasDiagnosis, "diagnosis", "Главная проблема");
   add(!!content?.rewrites.length, "rewrites", "Готовые тексты");
@@ -267,6 +281,13 @@ export default function AuditPage({ params }: PageProps) {
 
             {ai && content && (
               <>
+                {sec("changes") && previous && (
+                  <Section id="changes" number={sec("changes")!.number} title="Что изменилось"
+                    lead="Сравнение с прошлой проверкой этой же страницы.">
+                    <BeforeAfter data={previous} />
+                  </Section>
+                )}
+
                 {sec("start") && (
                   <Section id="start" number={sec("start")!.number} title="С чего начать"
                     lead="Три правки, которые сильнее всего повлияют на заявки. Остальное — ниже по отчёту.">

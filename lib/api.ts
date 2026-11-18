@@ -3,7 +3,7 @@
  * Все запросы идут через /api/v1/ (Next.js rewrites → бэкенд).
  */
 import axios, { AxiosError } from "axios";
-import type { AuditFullResponse, AuditListItem, AuditStatusResponse } from "@/types/audit";
+import type { AuditFullResponse, AuditListItem, AuditStatusResponse, ReportComparison } from "@/types/audit";
 
 const BASE_URL = "/api/v1";
 
@@ -118,4 +118,14 @@ export async function pollAuditStatus(
 
     poll();
   });
+}
+
+/** Сравнение с предыдущей проверкой той же страницы (null — проверки не было). */
+export async function getPreviousComparison(id: string): Promise<ReportComparison | null> {
+  try {
+    const { data } = await apiClient.get<{ previous: ReportComparison | null }>(`/audit/${id}/previous`);
+    return data.previous;
+  } catch {
+    return null;
+  }
 }
